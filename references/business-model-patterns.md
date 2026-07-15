@@ -2,6 +2,8 @@
 
 Pick the smallest model that can test willingness to pay.
 
+Choose the model after buyer, value capture, acquisition, and delivery are explicit. A model name is not a commercial path by itself.
+
 ## Lightweight Models
 
 - Paid template: sell a reusable artifact that solves a narrow repeated job.
@@ -38,3 +40,27 @@ Do not default to SaaS when:
 - the first 10 users are not reachable
 
 SaaS is often the second business model, not the first validation.
+
+## Pricing Hypothesis
+
+State a testable price, range, or pricing basis. Tie it to one of:
+
+- replacement spend
+- value created or risk avoided
+- current labor cost
+- comparable procurement category
+- paid pilot scope
+
+Avoid "freemium then subscription" without a reason the buyer will cross the payment boundary. The first price test should ask for real money or a purchasing commitment from the proposed buyer.
+
+## Delivery Reality Check
+
+For the selected model, state:
+
+- who performs the work per customer
+- what input the customer must provide
+- time to first value
+- expected human effort per delivery
+- what becomes reusable after each customer
+
+If effort scales linearly, price it as a service until repeatability is demonstrated.

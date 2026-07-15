@@ -1,119 +1,102 @@
 ---
 name: business-lens
-description: "Evaluate the business logic of a product opportunity, small product idea, service concept, customer pain, market opening, or candidate MVP. Use when the user asks whether an idea is a real business opportunity, whether the commercial logic works, who would pay, how it could acquire customers, what business model fits, what assumptions must be tested, or whether to proceed, pause, or reshape. For raw materials and idea generation use idea-spark first; for 3-hour MVP design use maker-forge after business-lens."
+description: "Evaluate the commercial logic of a product opportunity, service concept, customer pain, or candidate MVP and produce an evidence-bounded proceed, reshape, park, or reject decision. Use when the user asks whether an idea is a real business opportunity, who would buy, where budget comes from, how customers can be reached, what business model fits, what assumption could kill it, or what must be tested before building. Accept raw opportunities or idea-opportunity/v1 records from idea-spark; hand only maker-forge-ready business-opportunity/v1 records to maker-forge."
 ---
 
 # 商机透镜 Business Lens
 
-Version: v0.1.0
+Version: v0.2.0
 
 ## Core Rule
 
-Judge commercial logic, not idea beauty.
+Judge commercial logic, not idea beauty. Separate evidence from inference and assumptions. Never use an analogy, score, or polished narrative as proof of demand.
 
-Always separate:
+Require a coherent path through:
 
-- customer pain
-- buyer and budget
-- value created
-- value captured
-- acquisition path
-- delivery cost
-- competitive pressure
-- unverified assumptions
-- next validation move
+```text
+repeated or costly pain
+-> identifiable buyer and budget hypothesis
+-> value created and captured
+-> reachable first users
+-> repeatable delivery
+-> falsifiable short-cycle test
+```
 
-Do not claim an idea is a business only because it is useful, interesting, technically buildable, or similar to another case. A business opportunity needs a reachable buyer, a painful enough job, a plausible payment path, and a repeatable way to deliver value.
+`proceed` means "ready for validation or an experimental MVP", not "commercially validated".
 
 ## Positioning
 
-Business Lens is the commercial judgment layer:
-
 ```text
 idea-spark
--> candidate opportunities
+-> idea-opportunity/v1
 -> business-lens
--> commercial logic and go/no-go judgment
+-> business-opportunity/v1
 -> maker-forge
--> 3-hour MVP
 ```
 
-Use `maker-forge` directly if the user only wants a lightweight MVP plan. Use Business Lens when the user asks "值不值得做", "有没有商机", "商业逻辑通不通", "怎么赚钱", "谁会买", "能不能成为产品/生意".
+- Route raw materials, books, notes, or broad opportunity discovery to `idea-spark`.
+- Use Business Lens for commercial judgment.
+- Route to `maker-forge` only when `maker_forge_ready: true`.
 
-## Operating Modes
+## Intake
 
-Use lite mode by default:
+For an `idea-opportunity/v1` record, read `references/upstream-contract.md` and preserve `upstream_id`. Treat its buyer as a hypothesis, not a fact.
 
-1. Rewrite the opportunity in one sentence.
-2. Identify user, buyer, budget owner, and urgent job.
-3. Evaluate commercial logic with `references/commercial-logic-check.md`.
-4. Score the opportunity with `references/business-scorecard.md`.
-5. List the top assumptions and validation tests.
-6. Decide: proceed, reshape, park, or reject.
-7. If proceed or reshape, hand off to `maker-forge`.
-
-Use full mode when the user asks for a formal business judgment, workshop output, customer plan, pricing plan, or saved artifact.
+For an unstructured idea, normalize at least: name, user, scene, pain, current workaround, and unknowns. Infer cautiously and mark assumptions. Do not block on every missing field; block only when a missing commercial choice would materially change the judgment.
 
 ## Workflow
 
-1. Clarify only the commercial unknowns.
-   If missing, infer cautiously and mark assumptions. Prioritize: buyer, budget, frequency, current workaround, acquisition path.
+1. Build the commercial logic chain.
+   Read `references/commercial-logic-check.md`. Distinguish user, buyer, budget owner, payment reason, acquisition path, and delivery model.
 
-2. Run the commercial logic check.
-   Read `references/commercial-logic-check.md`.
+2. Classify evidence.
+   Read `references/evidence-ladder.md`. Record contradictions explicitly. Use current external research only when requested or necessary for a time-sensitive claim.
 
-3. Score the opportunity.
-   Read `references/business-scorecard.md`. Score demand, monetization, distribution, delivery, defensibility, and timing.
+3. Score with anchors.
+   Read `references/business-scorecard.md`. Score demand, buyer, distribution, delivery, defensibility, and timing from 1 to 5. Do not average blindly or let strong dimensions rescue a failed gate.
 
-4. Stress-test the business model.
-   Read `references/business-model-patterns.md` and choose the smallest plausible model: paid template, service-assisted MVP, subscription, one-off tool, workshop, plugin, marketplace wedge, lead generation, internal productivity product, or data product.
+4. Choose the smallest plausible business model.
+   Read `references/business-model-patterns.md`. Prefer a manual or service-assisted test before premature SaaS.
 
-5. Identify fatal assumptions.
-   Read `references/assumption-tests.md`. A good output must say what would make the idea false.
+5. Apply kill gates and design the test.
+   Read `references/assumption-tests.md`. Identify one fatal assumption and one test with a real ask, pass/fail thresholds, and deadline.
 
-6. Output the decision.
-   Use `references/output-template.md`.
+6. Decide.
+   Use `proceed`, `reshape`, `park`, or `reject` according to `references/commercial-decision-contract.md`.
 
-## Decision Labels
+7. Present or save.
+   Use `references/output-template.md` for user-facing output. For saved or reusable handoffs, copy `assets/business-decision-card.template.md`, fill every required field, and run `scripts/validate_business_decision.py`.
 
-- `proceed`: commercial logic is coherent enough for a first validation.
-- `reshape`: real pain exists, but user, buyer, model, or wedge must change.
-- `park`: interesting, but timing, access, or validation path is weak.
-- `reject`: no clear buyer, repeated pain, switching reason, or value capture.
+## Decision Guardrails
 
-Do not use `proceed` unless the next validation action is concrete.
+- Use `proceed` only when all five kill gates pass and demand, buyer, distribution, and delivery are each at least 3.
+- Use `reshape` when pain may be real but user, buyer, wedge, channel, model, or delivery must change. Always include `reshape_direction`.
+- Use `park` when timing, access, evidence, or testability is currently too weak.
+- Use `reject` when the opportunity lacks repeated/costly pain, an identifiable buyer, plausible value capture, or a credible reason to switch.
+- Set `maker_forge_ready: true` only for a structurally complete `proceed` record. A clear `reshape` must be re-evaluated after reshaping before handoff.
 
-## Handoff To Maker Forge
+## Host Integration
 
-When handing off, include:
-
-```text
-name:
-user:
-buyer:
-scene:
-pain:
-current workaround:
-commercial logic:
-business model:
-pricing hypothesis:
-acquisition path:
-fatal assumption:
-first validation test:
-```
+When operating inside a knowledge base or project host, read `references/host-integration.md`. Host tools may add internal evidence, confidence labels, or routing, but must not silently change the commercial decision rules.
 
 ## Boundaries
 
-- Do not provide financial, legal, or investment advice. This is business-model reasoning, not professional advice.
-- Do not browse or cite current market facts unless the user asks for market research or the claim depends on current data.
-- Do not overfit to famous startup cases. Use cases as analogy, not proof.
+- Do not provide financial, legal, or investment advice.
+- Do not claim market validation without direct behavioral evidence.
+- Do not browse by default; browse when requested or when a current claim materially affects the decision.
+- Do not expose private paths, internal project names, customer details, or source metadata in customer-facing output.
 - Do not write files unless the user asks to save, land, or generate an artifact.
-- Do not expose private paths, internal project names, customer details, or source collection metadata.
 
 ## References
 
-- `references/commercial-logic-check.md`: use for the core business logic chain.
-- `references/business-scorecard.md`: use for structured scoring and decision labels.
-- `references/business-model-patterns.md`: use to select the smallest plausible business model.
-- `references/assumption-tests.md`: use to define fatal assumptions and validation tests.
-- `references/output-template.md`: use for normal user-facing outputs.
+- `references/upstream-contract.md`: read for `idea-spark` intake and provenance.
+- `references/commercial-logic-check.md`: read for the core logic chain and kill gates.
+- `references/evidence-ladder.md`: read to classify support, assumptions, and contradictions.
+- `references/business-scorecard.md`: read for anchored scoring and decision constraints.
+- `references/business-model-patterns.md`: read to select the smallest plausible model.
+- `references/assumption-tests.md`: read to design falsifiable validation.
+- `references/commercial-decision-contract.md`: read for `business-opportunity/v1` fields and invariants.
+- `references/output-template.md`: read for normal user-facing outputs.
+- `references/host-integration.md`: read only when running inside a host project or knowledge base.
+- `assets/business-decision-card.template.md`: copy for saved decision artifacts.
+- `scripts/validate_business_decision.py`: run against saved JSON or handoff records.

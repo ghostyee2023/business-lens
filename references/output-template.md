@@ -1,48 +1,52 @@
 # Output Template
 
-Use this template for normal business judgment.
+Use this compact form for normal conversation. Keep evidence and assumptions visibly separate.
 
 ```markdown
-**一句话机会**
-谁，在什么场景下，因为现有方案什么问题，愿意为了什么结果付费。
+## 一句话机会
 
-**商业逻辑链**
-- 用户：
-- 购买者：
-- 预算/替代支出：
-- 高频场景：
+谁，在什么场景下，因为现有方案造成什么代价，可能为了什么结果付费。
+
+## 证据边界
+
+- 已观察/已报告：
+- 内部或外部证据：
+- 推断与类比：
+- 关键假设：
+- 反证：
+
+## 商业逻辑
+
+- 用户 / 购买者 / 预算：
 - 当前替代方案：
-- 价值创造：
-- 价值捕获：
-- 获客路径：
-- 交付方式：
+- 价值创造 / 价值捕获：
+- 首批用户路径：
+- 交付方式 / 商业模式 / 定价假设：
 
-**商机判断**
+## 评分与门槛
+
+- demand / buyer / distribution / delivery / defensibility / timing：
+- 五项 kill gates：
+
+## 决策
+
 - 结论：proceed / reshape / park / reject
-- 最大成立理由：
-- 最大不成立理由：
-- 最关键未验证假设：
+- 理由：
+- reshape 方向（仅 reshape）：
+- 致命假设：
 
-**评分**
-- 痛点频率：/5
-- 痛点强度：/5
-- 购买者清晰：/5
-- 预算匹配：/5
-- 获客可达：/5
-- 交付可重复：/5
-- 差异化：/5
+## 本轮验证
 
-**适合的商业模式**
-- 第一版模式：
-- 为什么不是更重的模式：
-- 可能的定价假设：
+- 用户组：
+- 真实请求：
+- 观察信号：
+- 通过阈值 / 失败阈值：
+- 截止时间：
 
-**验证动作**
-- 本周测试：
-- 找谁：
-- 问什么/卖什么：
-- 通过标准：
+## 下游
 
-**是否交给 maker-forge**
-是/否；理由。
+- maker_forge_ready：true / false
+- 下一步：
 ```
+
+For a saved or machine-readable decision, use `business-opportunity/v1` from `commercial-decision-contract.md` and copy `assets/business-decision-card.template.md`.

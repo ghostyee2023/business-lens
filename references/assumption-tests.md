@@ -1,41 +1,54 @@
 # Assumption Tests
 
-Every business judgment should identify what could make the idea false.
+Every decision must identify the single assumption most likely to overturn it.
 
-## Fatal Assumptions
+## Choose the Fatal Assumption
 
-Look for:
+Test the earliest weak link, not the easiest activity. Common fatal assumptions include:
 
-- People experience this pain often enough.
-- The pain is costly enough to pay for.
-- The buyer can be reached.
-- The buyer has budget.
-- The output is trusted.
-- The workflow happens repeatedly.
-- The product can be delivered cheaply enough.
-- Existing alternatives are not good enough.
+- the pain happens often enough or costs enough
+- the proposed buyer owns a usable budget
+- first users can be reached through the named channel
+- the output is trusted enough to change behavior
+- the workflow repeats
+- delivery effort leaves room for value capture
+- the current workaround is insufficient enough to trigger switching
 
-## Validation Tests
+Write the assumption as a falsifiable sentence, not a topic.
 
-Choose one concrete test:
+## Validation Protocol
 
-- Interview 5 target users about current workaround and cost.
-- Offer a manual concierge version to 3 users.
-- Sell a paid template before building software.
-- Put a landing page in front of a specific channel.
-- Ask existing customers to rank this against other pains.
-- Run a fake-door test with price displayed.
-- Build a spreadsheet/manual report and charge for it.
-- Compare usage against a free good-enough workaround.
+Every test must include:
 
-## Good Test Criteria
+```yaml
+user_group: narrowly defined target users or buyers
+real_ask: the money, data, time, workflow change, introduction, or commitment requested
+signal: the observable behavior that supports or contradicts the assumption
+pass_threshold: minimum result that keeps the opportunity alive
+fail_threshold: result that triggers reshape, park, or reject
+deadline: a calendar date or short fixed window
+```
 
-A good test has:
+Pass and fail thresholds must cover the meaningful outcomes. Do not leave an undefined middle unless the next action for that middle is stated.
 
-- named user group
-- real ask
-- price or effort signal
-- pass/fail threshold
-- short timeline
+## Test Strength
 
-Avoid tests that only collect praise.
+Prefer stronger behavior:
+
+1. paid pilot, deposit, or signed commitment
+2. real workflow trial with sensitive data, time, or integration effort
+3. qualified introduction or scheduled next step with the buyer
+4. price-bearing fake door or manual concierge offer
+5. observation of current workaround and cost
+6. stated interest or survey response
+
+Use weaker tests only when stronger ones are unsafe or premature, and say what they cannot prove.
+
+## Anti-Patterns
+
+- "Interview 5 users" without a real ask or threshold.
+- "Build an MVP and see" without naming the fatal assumption.
+- Asking whether people like the idea.
+- Counting clicks from an unqualified audience as buyer demand.
+- Treating one friendly customer's praise as a repeatable market.
+- Setting a pass threshold after seeing results.
